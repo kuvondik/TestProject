@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TestProject</name>
+    </assembly>
+    <members>
+        <member name="T:TestProject.Program">
+            <summary>
+            Main class that runs the application
+            </summary>
+        </member>
+        <member name="F:TestProject.Program.Namespace">
+            <summary>
+            Namespace
+            </summary>
+        </member>
+        <member name="F:TestProject.Program.AppName">
+            <summary>
+            Application name
+            </summary>
+        </member>
+        <member name="M:TestProject.Program.Main(System.String[])">
+            <summary>
+            Main entry point
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TestProject.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Creates host builder
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TestProject.Services.ICsvService">
+            <summary>
+            Csv file reader/writer contract
+            </summary>
+        </member>
+    </members>
+</doc>
