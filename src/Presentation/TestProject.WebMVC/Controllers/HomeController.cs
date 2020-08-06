@@ -63,7 +63,11 @@ namespace TestProject.WebMVC.Controllers
             try
             {
                 if (model == null || model.File == null)
-                    return null;
+                    return Json(new Response
+                    {
+                        Success = false,
+                        Message = "Wrong parameter(s)!",
+                    });
 
                 var tableName = model.TableName;
                 var records = await _csvService.ReadAsync(model.File).ConfigureAwait(false);
@@ -83,16 +87,17 @@ namespace TestProject.WebMVC.Controllers
                     await _unitOfWork.CreateTableAsync(tableName, columnNames: columnNames.ToArray()).ConfigureAwait(false);
                 }
                 else
-                    columnNames = _unitOfWork.GetColumnNames(tableName).ToList();
+                    columnNames = (await _unitOfWork.GetColumnNamesAsync(tableName).ConfigureAwait(false)).ToList();
 
                 // Insert data into the table
-                var newRecordsCount = _unitOfWork.InsertMany(tableName, records);
-                var data = _unitOfWork.GetAll(tableName).ToList();
+                var newRecordsCount = await _unitOfWork.InsertManyAsync(tableName, records).ConfigureAwait(false);
+                var data = (await _unitOfWork.GetAllAsync(tableName).ConfigureAwait(false)).ToList();
 
-                return Json(new
+                return Json(new Response<List<dynamic>>
                 {
+                    Success = true,
                     ColumnNames = columnNames,
-                    Results = data,
+                    Data = data,
                     TotalCount = data.Count,//await _unitOfWork.CountAsync(tableName).ConfigureAwait(false),
                     NewRecordsCount = newRecordsCount,
                     TableName = tableName,
@@ -101,7 +106,11 @@ namespace TestProject.WebMVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                return Json(new Response
+                {
+                    Success = false,
+                    Message = ex.Message,
+                });
             }
 
             //return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
@@ -128,11 +137,11 @@ namespace TestProject.WebMVC.Controllers
                 // Column  names
                 var columnNames = _unitOfWork.GetColumnNames(tableName).ToList();
 
-                return Json(new
+                return Json(new Response<List<dynamic>>
                 {
                     Success = true,
                     ColumnNames = columnNames,
-                    Results = data,
+                    Data = data,
                 });
             }
             catch (Exception ex)
@@ -239,7 +248,7 @@ namespace TestProject.WebMVC.Controllers
                 // Insert data
                 var insertedData = await _unitOfWork.InsertAsync(model.TableName, data).ConfigureAwait(false);
 
-                return Json(new
+                return Json(new Response<dynamic>
                 {
                     Success = true,
                     Data = insertedData,
@@ -266,12 +275,24 @@ namespace TestProject.WebMVC.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteData(string tableName, string id)
         {
+            if (string.IsNullOrEmpty(tableName))
+                return Json(new Response
+                {
+                    Success = false,
+                    Message = "Table name can't be null!"
+                });
+            if (string.IsNullOrEmpty(id))
+                return Json(new Response
+                {
+                    Success = false,
+                    Message = "Id can't be null!"
+                });
             try
             {
                 // Remove data
                 await _unitOfWork.RemoveAsync(tableName, id).ConfigureAwait(false);
 
-                return Json(new
+                return Json(new Response
                 {
                     Success = true,
                     TotalCount = await _unitOfWork.CountAsync(tableName).ConfigureAwait(false)
@@ -412,9 +433,7 @@ namespace TestProject.WebMVC.Controllers
             try
             {
                 var tables = _unitOfWork.GetAllTables();
-
                 var totalTables = tables.LongCount();
-
                 var tablesOnPage = tables
                    .Where(t => t.TABLE_NAME.Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
                    .Skip(pageSize * page)
@@ -426,17 +445,21 @@ namespace TestProject.WebMVC.Controllers
 
                 var paginatedList = new PaginatedList<TableModel>(tablesOnPage, totalTables, page, pageSize);
 
-                return Json(new
+                return Json(new Response<PaginatedList<TableModel>>
                 {
-                    Results = paginatedList,
-                    Count = totalTables,
-                    more = paginatedList.HasNextPage
+                    Data = paginatedList,
+                    TotalCount = totalTables,
+                    //More = paginatedList.HasNextPage
                 });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                throw;
+                return Json(new Response
+                {
+                    Success = false,
+                    Message = ex.Message,
+                });
             }
         }
 

@@ -32,12 +32,12 @@ namespace TestProject.WebMVC.Infrastructure.Database
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _connectionProvider = connectionProvider ?? throw new ArgumentNullException(nameof(connectionProvider));
 
-            // Create database
-            if (!EnsureDatabase())
-                throw new InvalidOperationException("Database couldn't be created.");
+            EnsureDatabase(DbDefaults.DatabaseName);
         }
 
         #endregion Construtor
+
+        public string DatabaseName { get; set; } = DbDefaults.DatabaseName;
 
         #region Public Methods
 
@@ -494,8 +494,10 @@ namespace TestProject.WebMVC.Infrastructure.Database
             }
         }
 
-        public bool EnsureDatabase(string databaseName = DbDefaults.DatabaseName)
+        public bool EnsureDatabase(string databaseName)
         {
+            if (string.IsNullOrEmpty(databaseName))
+                throw new ArgumentException("Database name can't be null or empty!", nameof(databaseName));
             try
             {
                 using var connection = _connectionProvider.GetBaseDbConnection();
@@ -891,8 +893,10 @@ namespace TestProject.WebMVC.Infrastructure.Database
             }
         }
 
-        public async Task<bool> EnsureDatabaseAsyc(string databaseName = DbDefaults.DatabaseName, CancellationToken token = default)
+        public async Task<bool> EnsureDatabaseAsyc(string databaseName, CancellationToken token = default)
         {
+            if (string.IsNullOrEmpty(databaseName))
+                throw new ArgumentException("Database name can't be null or empty!", nameof(databaseName));
             try
             {
                 using var connection = _connectionProvider.GetDbConnection();

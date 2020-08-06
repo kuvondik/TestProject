@@ -79,7 +79,7 @@
                 success: function (result) {
                     if (result.success) {
                         var colNames = result.column_names;
-                        var data = result.results;
+                        var data = result.data;
 
                         currentTableName = tableName;
                         currentColumnNames = colNames;
@@ -159,7 +159,7 @@
                 processData: false,
                 success: function (result) {
                     var colNames = result.column_names;
-                    var data = result.results;
+                    var data = result.data;
                     var totalCount = result.total_count;
                     var newRecordsCount = result.new_records_count;
                     var tableName = result.table_name;
@@ -422,7 +422,7 @@
 });
 
 // Create table select
-function CreateTableSelect(){
+function CreateTableSelect() {
     $("#tableSelect").select2({
         ajax: {
             url: getAllTablesUrl,
@@ -525,7 +525,7 @@ function FetchAndSetPreseletedTableOption() {
     }).then(function (result) {
         if (result.success) {
             // create the option and append to Select2
-            var option = new Option(result.data.table_name, 1, true, true);
+            var option = new Option(result.data.table_name, 1, false, true);
 
             currentTableName = result.data.table_name;
             tableSelect.append(option).trigger('change');
@@ -551,7 +551,7 @@ function FetchAndSetPreseletedTableOption() {
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
                         var colNames = result.column_names;
-                        var data = result.results;
+                        var data = result.data;
 
                         currentColumnNames = colNames;
 

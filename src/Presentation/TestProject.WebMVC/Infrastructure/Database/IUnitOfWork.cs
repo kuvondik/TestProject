@@ -10,6 +10,8 @@ namespace TestProject.WebMVC.Infrastructure.Database
 {
     public interface IUnitOfWork
     {
+        string DatabaseName { get; set; }
+
         int CreateTable(string tableName = DbDefaults.DefaultTableName, params string[] columnNames);
 
         IEnumerable<string> GetColumnNames(string tableName);
@@ -56,7 +58,7 @@ namespace TestProject.WebMVC.Infrastructure.Database
 
         void Commit(IDbTransaction transaction);
 
-        bool EnsureDatabase(string databaseName = DbDefaults.DatabaseName);
+        bool EnsureDatabase(string databaseName);
 
         Task<int> CreateTableAsync(string tableName = DbDefaults.DefaultTableName, CancellationToken token = default, params string[] columnNames);
 
@@ -92,6 +94,6 @@ namespace TestProject.WebMVC.Infrastructure.Database
 
         Task<int> RemoveAsync<TKey>(string tableName, TKey id, string schema = DbDefaults.DefaultDatabaseSchema, CancellationToken token = default);
 
-        Task<bool> EnsureDatabaseAsyc(string databaseName = DbDefaults.DatabaseName, CancellationToken token = default);
+        Task<bool> EnsureDatabaseAsyc(string databaseName, CancellationToken token = default);
     }
 }

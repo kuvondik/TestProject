@@ -27,5 +27,10 @@ namespace TestProject.WebMVC.Infrastructure.Database
         {
             return new SqlConnection(_baseConnectionString);
         }
+
+        public interface IDatabaseConnectionFactory
+        {
+            IDbConnection GetConnection();
+        }
     }
 }
