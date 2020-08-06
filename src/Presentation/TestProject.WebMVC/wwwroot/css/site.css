@@ -1,0 +1,207 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+/* Themes
+-------------------------------------------------- */
+.bg-dark-lighter {
+    background-color: #404040 !important;
+}
+
+.bg-dark {
+    background-color: #333333 !important;
+}
+
+.bg-darker {
+    background-color: #1E1E1E !important;
+}
+
+.text-dark {
+    color: #333333 !important;
+}
+
+.text-darker {
+    color: #1E1E1E !important;
+}
+
+.text-light {
+    color: #F1F1F1 !important;
+}
+
+.text-lighter {
+    color: #FFFFFF !important;
+}
+
+html, body {
+    background-color: #1E1E1E !important;
+    color: #F1F1F1 !important;
+}
+label{
+    user-select:none!important;
+}
+
+.navbar {
+    color: #F1F1F1 !important;
+}
+
+a.navbar-brand {
+    transition: all ease 0.4s;
+    color: #F1F1F1 !important;
+}
+
+    a.navbar-brand:hover{
+        color: #989896 !important;
+    }
+
+.nav-item > a {
+    color: #DFDFDC !important;
+}
+
+    .nav-item > a:hover, nav-item > a:focus {
+        color: #C7C799 !important;
+    }
+
+.navbar-toggler {
+    color: #DEE2E6 !important;
+    background-color: #DEE2E6 !important;
+}
+.jsgrid {
+}
+.jsgrid-table, .jsgrid-cell, .jsgrid-grid-header, .jsgrid-header-cell {
+    background-color: #404040 !important;
+    border: 1px solid #747474 !important;
+}
+    .jsgrid-cell > input {
+        border: 1px solid #747474 !important;
+        color: #333333 !important;
+    }
+    .jsgrid-cell > input.jsgrid-button {
+        border: none!important;
+    }
+.jsgrid-grid-header, .jsgrid-grid-body ,jsgrid-cell {
+    border:none!important;
+/*    border:1px solid #747474 !important;*/
+    overflow-y: hidden !important;
+}
+.jsgrid-grid-body {
+    overflow-y: auto !important;
+}
+.jsgrid-grid-header {
+}
+.jsgrid-grid-body {
+}
+.jsgrid-load-panel {
+    color: #333333 !important;
+}
+.jsgrid-selected-row td {
+    background-color: #333333 !important;
+}
+.select2-dropdown{
+    background-color:#333333 !important;
+}
+.select2-results ul li{
+
+}
+.select2-search input{
+    color:#333333!important;
+}
+.main-image{
+    text-align:center;
+    max-width: 300px;
+    margin-left:auto!important;
+    margin-right:auto!important;
+}
+
+.btns-info{
+    border-radius:.25rem;
+    padding:5px 10px;
+    background-color:#1E1E1E!important;
+    float:right;
+    font-size:13px;
+    min-width:200px!important;
+    max-width:305px!important;
+}
+.btns-info p{
+    margin:0;
+    margin-bottom:5px;
+}
+.btns-info-link{
+    outline:none!important;
+    transition: all ease 0.5s!important;
+    font-size: 13px!important;
+}
+
+.hide {
+    display: none;
+}

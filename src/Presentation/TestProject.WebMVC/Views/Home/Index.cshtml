@@ -1,0 +1,169 @@
+﻿@model HomeViewModel;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form id="formUpload" enctype="multipart/form-data" method="post" class="card bg-dark">
+            <div class="card-header">
+                <h3 class="h6">Employees</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="image-container text-center">
+                            <img class="main-image p-4" src="~/svg/main-image.svg" alt="image" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="text-danger" asp-validation-summary="All"></div>
+
+                        <label>Import *.csv file:</label>
+                        <!-- File Uploader -->
+                        <div class="custom-file mb-3">
+                            <input asp-for="File" id="fileUploadInput" name="fileUploadInput" accept=".csv" type="file" class="custom-file-input">
+                            <label class="custom-file-label bg-dark text-light" for="fileUploadInput">Choose file</label>
+                        </div>
+
+                        <!-- Switch -->
+                        <div class="custom-control custom-switch mb-3">
+                            <input type="checkbox" class="custom-control-input" id="tableSwitch" name="tableSwitch" checked="checked">
+                            <label class="custom-control-label" for="tableSwitch">Select table</label>
+                        </div>
+
+                        <!-- Select -->
+                        <div class="mb-3 table-select-container">
+                            <select asp-for="TableName" id="tableSelect" name="tableSelect" class="custom-select">
+                            </select>
+                        </div>
+                        <div class="container p-0 d-flex flex-row-reverse">
+                            <button type="reset" id="btnClearPage" class="btn btn-secondary mb-3" onClick="window.location.reload();">Clear page</button>
+                            <button id="btnLoadFile" class="btn btn-primary mb-3 mr-2">Load file</button>
+                            <button id="btnLoadTable" class="btn btn-success mb-3 mr-2">Load table</button>
+                        </div>
+
+                        <div class="d-flex flex-column float-right">
+                            <!-- Button info collapse button -->
+                            <div class="float-right text-right">
+                                <button class="btn-link mb-3 bg-transparent border-0 btns-info-link" type="button" data-toggle="collapse" data-target="#btnsInfo" aria-expanded="false" aria-controls="btnsInfo">Buttons Info</button>
+                            </div>
+
+                            <!-- Collapse info -->
+                            <div id="btnsInfo" class="float-right btns-info collapse">
+                                <p><span class="text-success">Load table </span>  loads selected table data.</p>
+                                <p><span class="text-primary">Load file </span>  loads file data. <br> (if table isn't selected new one will be created.)</p>
+                                <p><span class="text-secondary">Clear page </span>  refreshes the page.</p>
+                                <p><span class="text-danger">Delete table </span>  deletes a table.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <div class="config-panel mb-3">
+                    <div class="custom-control custom-checkbox d-inline">
+                        <input id="filtering" type="checkbox" class="custom-control-input">
+                        <label for="filtering" class="custom-control-label"> Filtering</label>
+                    </div>
+
+                    <div class="custom-control custom-checkbox d-inline ml-sm-4">
+                        <input id="inserting" type="checkbox" class="custom-control-input">
+                        <label for="inserting" class="custom-control-label"> Inserting</label>
+                    </div>
+
+                    <div class="custom-control custom-checkbox d-inline ml-sm-4">
+                        <input id="paging" type="checkbox" checked="checked" class="custom-control-input">
+                        <label for="paging" class="custom-control-label"> Paging</label>
+                    </div>
+
+                    <div class="info d-inline float-right mb-2">
+                        <span class="font-weight-bold">Total records: <span class="total-count font-weight-normal">0</span></span>
+                        <span class="ml-3 text-success font-weight-bold">Newly added records: <span class="new-records-count font-weight-normal">0</span></span>
+                    </div>
+                </div>
+
+                <!-- JsGrid -->
+                <div class="jsgrid mb-3" id="jsGrid"></div>
+
+                <!-- Table delete button -->
+                <button id="btnDeleteTable" class="btn btn-danger mb-3 float-right">Delete table</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        @{
+            Microsoft.AspNetCore.Html.IHtmlContent dataSet = null;
+            Microsoft.AspNetCore.Html.IHtmlContent colNames = null;
+            if (Model?.DataSet != null)
+            {
+                dataSet = Html.Raw(JsonConvert.SerializeObject(Model.DataSet,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                }));
+
+                colNames = Html.Raw(JsonConvert.SerializeObject(Model.ColumnNames,
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    }));
+            }
+        }
+
+        var getAllTablesUrl = '@Url.Action("GetAllTables", "Home")';
+        var getFirstTableUrl = '@Url.Action("GetFirstTable", "Home")';
+        var deleteTableUrl = '@Url.Action("deleteTable", "Home")';
+        var getPaginatedTablesUrl = '@Url.Action("GetPaginatedTables", "Home")';
+        var getAllDataUrl = '@Url.Action("GetAllData","Home")';
+        var getFilteredDataUrl = '@Url.Action("GetFilteredData", "Home")';
+        var loadFileUrl = '@Url.Action("LoadFile","Home")';
+        var insertDataUrl= '@Url.Action("InsertData","Home")';
+        var deleteDataUrl= '@Url.Action("DeleteData","Home")';
+        var updateDataUrl= '@Url.Action("UpdateData","Home")';
+        var initialData = 'dataSet';
+        var initialColumnNames = 'colNames';
+        var currentColumnNames = [];
+        var currentTableName = $("#tableSelect").find(":selected").text();
+
+        if (initialData != null) {
+
+            var columns = [];
+
+            //// Table buttons
+            //columns.push({
+            //    type: 'control',
+            //    width: '80px'
+            //});
+
+            //for (var i = 0; i < initialColumnNames.length; i++) {
+            //    if (colNames[i].toLowerCase() == "id") {
+            //        columns.push({
+            //            name: initialColumnNames[i],
+            //            type: 'text',
+            //            visible: false,
+            //        });
+            //    }
+            //    else
+            //        columns.push({
+            //            name: initialColumnNames[i],
+            //            title: initialColumnNames[i],
+            //            width: '300px',
+            //            type: 'text'
+            //        });
+            }
+
+        // Declare jsGrid fields
+        $("#jsGrid").jsGrid("option", "fields", columns);
+
+        // Load data
+        $("#jsGrid").jsGrid("option", "data", initialData);
+    </script>
+
+    <script src="~/js/home/index.js" asp-append-version="true"></script>
+}

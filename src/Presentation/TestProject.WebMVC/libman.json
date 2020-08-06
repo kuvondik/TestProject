@@ -1,0 +1,88 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "filesystem",
+      "library": "node_modules/bootstrap/dist/css/bootstrap.min.css",
+      "destination": "wwwroot/lib/bootstrap/css/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/bootstrap/dist/js/bootstrap.min.js",
+      "destination": "wwwroot/lib/bootstrap/js/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/jquery/dist/jquery.min.js",
+      "destination": "wwwroot/lib/jquery/js/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/jsgrid/dist/jsgrid.min.css",
+      "destination": "wwwroot/lib/jsgrid/css/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/jsgrid/dist/jsgrid.min.js",
+      "destination": "wwwroot/lib/jsgrid/js/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/popper.js/dist/popper.min.js",
+      "destination": "wwwroot/lib/popper.js/js/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/jsgrid/css/",
+      "destination": "wwwroot/lib/jsgrid/css/",
+      "files": [
+        "icons-2x.png",
+        "icons.png"
+      ]
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/jsgrid/dist/jsgrid-theme.min.css",
+      "destination": "wwwroot/lib/jsgrid/css/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/select2/dist/css/select2.min.css",
+      "destination": "wwwroot/lib/select2/css/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/select2/dist/js/select2.full.min.js",
+      "destination": "wwwroot/lib/select2/js/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/bootstrap/dist/css/",
+      "destination": "wwwroot/lib/bootstrap/css/",
+      "files": [
+        "bootstrap.min.css.map"
+      ]
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/bootstrap/dist/js/bootstrap.min.js.map",
+      "destination": "wwwroot/lib/bootstrap/js/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/jquery-validation/dist/jquery.validate.min.js",
+      "destination": "wwwroot/lib/jquery-validation/js/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/font-awesome/css/font-awesome.min.css",
+      "destination": "wwwroot/lib/font-awesome/css/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "node_modules/font-awesome/fonts/",
+      "destination": "wwwroot/lib/font-awesome/fonts/"
+    }
+  ]
+}

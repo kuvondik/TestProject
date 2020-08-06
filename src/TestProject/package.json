@@ -1,9 +1,0 @@
-{
-  "name": "myproject",
-  "version": "1.0.0",
-  "devDependencies": {
-    "bootstrap": "^4.5.0",
-    "jquery": "^3.5.1",
-    "jsgrid": "^1.5.3"
-  }
-}

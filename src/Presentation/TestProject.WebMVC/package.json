@@ -1,0 +1,13 @@
+{
+  "name": "testproject",
+  "version": "1.0.0",
+  "devDependencies": {
+    "bootstrap": "^4.5.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.5.1",
+    "jquery-validation": "^1.19.2",
+    "jsgrid": "^1.5.3",
+    "popper.js": "1.16.1",
+    "select2": "^4.0.13"
+  }
+}
