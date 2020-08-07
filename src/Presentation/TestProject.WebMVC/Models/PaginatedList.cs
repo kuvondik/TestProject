@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TestProject.WebMVC.Models
 {
+    /// <summary>
+    /// For paginating objects
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PaginatedList<T> : List<T>
     {
         public int PageIndex { get; private set; }
